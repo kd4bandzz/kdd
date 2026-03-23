@@ -44,45 +44,45 @@ local RayfieldLibrary = {
 	Flags = {},
 	Theme = {
 		Default = {
-			TextColor = Color3.fromRGB(137, 135, 136),
+			TextColor = Color3.fromRGB(225, 235, 230),
 
-			Background = Color3.fromRGB(85, 0, 127),
-			Topbar = Color3.fromRGB(0, 0, 0),
-			Shadow = Color3.fromRGB(0, 0, 0),
+			Background = Color3.fromRGB(54, 62, 60),
+			Topbar = Color3.fromRGB(72, 84, 81),
+			Shadow = Color3.fromRGB(32, 38, 36),
 
-			NotificationBackground = Color3.fromRGB(65, 0, 100),
-			NotificationActionsBackground = Color3.fromRGB(65, 0, 100),
+			NotificationBackground = Color3.fromRGB(64, 74, 71),
+			NotificationActionsBackground = Color3.fromRGB(78, 91, 87),
 
-			TabBackground = Color3.fromRGB(25, 50, 85),
-			TabStroke = Color3.fromRGB(0, 0, 0),
-			TabBackgroundSelected = Color3.fromRGB(25, 50, 85),
-			TabTextColor = Color3.fromRGB(0, 255, 255),
-			SelectedTabTextColor = Color3.fromRGB(0, 255, 255),
+			TabBackground = Color3.fromRGB(74, 88, 84),
+			TabStroke = Color3.fromRGB(110, 130, 124),
+			TabBackgroundSelected = Color3.fromRGB(112, 168, 148),
+			TabTextColor = Color3.fromRGB(200, 225, 216),
+			SelectedTabTextColor = Color3.fromRGB(28, 45, 39),
 
-			ElementBackground = Color3.fromRGB(85, 0, 127),
-			ElementBackgroundHover = Color3.fromRGB(85, 0, 127),
-			SecondaryElementBackground = Color3.fromRGB(85, 0, 127),
-			ElementStroke = Color3.fromRGB(85, 0, 127),
-			SecondaryElementStroke = Color3.fromRGB(85, 0, 127),
+			ElementBackground = Color3.fromRGB(68, 79, 76),
+			ElementBackgroundHover = Color3.fromRGB(84, 98, 94),
+			SecondaryElementBackground = Color3.fromRGB(78, 91, 87),
+			ElementStroke = Color3.fromRGB(109, 129, 123),
+			SecondaryElementStroke = Color3.fromRGB(109, 129, 123),
 
-			SliderBackground = Color3.fromRGB(85, 0, 127),
-			SliderProgress = Color3.fromRGB(58, 125, 21),
-			SliderStroke = Color3.fromRGB(0, 0, 0),
+			SliderBackground = Color3.fromRGB(88, 108, 101),
+			SliderProgress = Color3.fromRGB(134, 201, 173),
+			SliderStroke = Color3.fromRGB(115, 155, 140),
 
-			ToggleBackground = Color3.fromRGB(85, 0, 127),
-			ToggleEnabled = Color3.fromRGB(0, 255, 0),
-			ToggleDisabled = Color3.fromRGB(255, 0, 0),
-			ToggleEnabledStroke = Color3.fromRGB(0, 0, 0),
-			ToggleDisabledStroke = Color3.fromRGB(0, 0, 0),
-			ToggleEnabledOuterStroke = Color3.fromRGB(0, 0, 0),
-			ToggleDisabledOuterStroke = Color3.fromRGB(0, 0, 0),
+			ToggleBackground = Color3.fromRGB(82, 95, 91),
+			ToggleEnabled = Color3.fromRGB(129, 199, 168),
+			ToggleDisabled = Color3.fromRGB(118, 124, 122),
+			ToggleEnabledStroke = Color3.fromRGB(170, 228, 201),
+			ToggleDisabledStroke = Color3.fromRGB(145, 150, 148),
+			ToggleEnabledOuterStroke = Color3.fromRGB(102, 166, 138),
+			ToggleDisabledOuterStroke = Color3.fromRGB(96, 102, 100),
 
-			DropdownSelected = Color3.fromRGB(0, 91, 255),
-			DropdownUnselected = Color3.fromRGB(85, 0, 127),
+			DropdownSelected = Color3.fromRGB(112, 168, 148),
+			DropdownUnselected = Color3.fromRGB(76, 88, 85),
 
-			InputBackground = Color3.fromRGB(85, 0, 127),
-			InputStroke = Color3.fromRGB(0, 0, 0),
-			PlaceholderColor = Color3.fromRGB(255, 255, 255)
+			InputBackground = Color3.fromRGB(66, 77, 74),
+			InputStroke = Color3.fromRGB(115, 135, 129),
+			PlaceholderColor = Color3.fromRGB(180, 195, 189)
 		},
 
 		Light = {
@@ -322,7 +322,7 @@ elseif getgenv().is_on_pc_check == false and UserInputService.TouchEnabled or Us
 	ToggleUI_Frames.Position = UDim2.new(0.482097834, 0, 0.0307443365, 0)
 	ToggleUI_Frames.Size = UDim2.new(0, 70, 0, 54)
 	ToggleUI_Frames.Image = "rbxassetid://3570695787"
-	ToggleUI_Frames.ImageColor3 = Color3.fromRGB(45, 45, 45)
+	ToggleUI_Frames.ImageColor3 = Color3.fromRGB(98, 122, 116)
 	ToggleUI_Frames.ScaleType = Enum.ScaleType.Slice
 	ToggleUI_Frames.SliceCenter = Rect.new(100, 100, 100, 100)
 	ToggleUI_Frames.SliceScale = 0.120
@@ -1377,7 +1377,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Button:FindFirstChild("Interact").MouseButton1Click:Connect(function()
 				local Success, Response = pcall(ButtonSettings.Callback)
 				if not Success then
-					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					if Button:FindFirstChild("ElementIndicator") then
 						TweenService:Create(Button:FindFirstChild("ElementIndicator"), TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
 					end
@@ -1389,7 +1389,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					task.wait(0.5)
 					Button.Title.Text = ButtonSettings.Name
 					if Button then
-						TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+						TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					end
 					if Button:FindFirstChild("ElementIndicator") then
 						TweenService:Create(Button:FindFirstChild("ElementIndicator"), TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
@@ -1399,7 +1399,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					end
 				else
 					SaveConfiguration()
-					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+					TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					wait(0.2)
 					if Button:FindFirstChild("ElementIndicator") then
 						TweenService:Create(Button:FindFirstChild("ElementIndicator"), TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 1}):Play()
@@ -1410,7 +1410,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 					end
 					task.wait(0.2)
 					if Button then
-						TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+						TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					end
 					wait(0.1)
 					if Button:FindFirstChild("ElementIndicator") then
@@ -1423,12 +1423,12 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end)
 
 			Button.MouseEnter:Connect(function()
-				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 				TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.7}):Play()
 			end)
 
 			Button.MouseLeave:Connect(function()
-				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+				TweenService:Create(Button, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 				TweenService:Create(Button.ElementIndicator, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {TextTransparency = 0.9}):Play()
 			end)
 
@@ -1437,7 +1437,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				Button.Name = NewButton
 			end
 			wait(0.2)
-			Button.BackgroundColor3 = Color3.fromRGB(85, 0, 127)
+			Button.BackgroundColor3 = Color3.fromRGB(78, 91, 87)
 
 			return ButtonValue
 		end
@@ -1482,10 +1482,10 @@ function RayfieldLibrary:CreateWindow(Settings)
 			local sliderDragging = false 
 			ColorPicker.Interact.MouseButton1Down:Connect(function()
 				task.spawn(function()
-					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					TweenService:Create(ColorPicker.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 1}):Play()
 					task.wait(0.2)
-					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+					TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 					TweenService:Create(ColorPicker.UIStroke, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {Transparency = 0}):Play()
 				end)
 
@@ -1663,11 +1663,11 @@ function RayfieldLibrary:CreateWindow(Settings)
 			end
 
 			ColorPicker.MouseEnter:Connect(function()
-				TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+				TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 			end)
 
 			ColorPicker.MouseLeave:Connect(function()
-				TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(85, 0, 127)}):Play()
+				TweenService:Create(ColorPicker, TweenInfo.new(0.6, Enum.EasingStyle.Exponential), {BackgroundColor3 = Color3.fromRGB(78, 91, 87)}):Play()
 			end)
 			
 			Rayfield.Main:GetPropertyChangedSignal('BackgroundColor3'):Connect(function()
@@ -1682,7 +1682,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 				ColorPicker.HexInput.UIStroke.Color = SelectedTheme.InputStroke
 			end)
 
-			ColorPicker.BackgroundColor3 = Color3.fromRGB(85, 0, 127)
+			ColorPicker.BackgroundColor3 = Color3.fromRGB(78, 91, 87)
 
 			return ColorPickerSettings
 		end
@@ -1699,7 +1699,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 
 			local Section = Elements.Template.SectionTitle:Clone()
 			Section.Title.Text = SectionName
-			Section.Title.TextColor3 = Color3.fromRGB(0, 0, 0)
+			Section.Title.TextColor3 = Color3.fromRGB(210, 240, 226)
 			Section.Visible = true
 			Section.Parent = TabPage
 
@@ -1756,7 +1756,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Paragraph.Content.Text = ParagraphSettings.Content
 			Paragraph.Visible = true
 			Paragraph.Parent = TabPage
-         Paragraph.Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+         Paragraph.Title.TextColor3 = Color3.fromRGB(225, 245, 236)
 
 			Paragraph.BackgroundTransparency = 1
 			Paragraph.UIStroke.Transparency = 1
@@ -1795,7 +1795,7 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Input.BackgroundTransparency = 1
 			Input.UIStroke.Transparency = 1
 			Input.Title.TextTransparency = 1
-         Input.Title.TextColor3 = Color3.fromRGB(255, 255, 0)
+         Input.Title.TextColor3 = Color3.fromRGB(205, 240, 224)
 			Input.BackgroundColor3 = SelectedTheme.ElementBackground
 			
 			Input.InputFrame.BackgroundColor3 = SelectedTheme.InputBackground
@@ -2168,9 +2168,9 @@ function RayfieldLibrary:CreateWindow(Settings)
 			Keybind.Visible = true
 			Keybind.Parent = TabPage
 			if Keybind.BackgroundColor3 then
-				Keybind.BackgroundColor3 = Color3.fromRGB(85, 0, 127)
+				Keybind.BackgroundColor3 = Color3.fromRGB(78, 91, 87)
 			elseif Keybind:FindFirstChild("KeybindFrame").BackgroundColor3 then
-				Keybind:FindFirstChild("KeybindFrame").BackgroundColor3 = Color3.fromRGB(85, 0, 127)
+				Keybind:FindFirstChild("KeybindFrame").BackgroundColor3 = Color3.fromRGB(78, 91, 87)
 			end
 
 			Keybind.BackgroundTransparency = 1
