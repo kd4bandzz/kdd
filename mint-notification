@@ -1,0 +1,139 @@
+if not getgenv().Game then
+	getgenv().Game = cloneref and cloneref(game) or game
+end
+
+task.wait()
+
+local function safe_wrapper(serviceName)
+	local service = game:GetService(serviceName)
+	return cloneref and cloneref(service) or service
+end
+
+local Players = safe_wrapper("Players")
+local CoreGui = safe_wrapper("CoreGui")
+local StarterGui = safe_wrapper("StarterGui")
+local GuiService = safe_wrapper("GuiService")
+local Workspace = safe_wrapper("Workspace")
+local UserInputService = safe_wrapper("UserInputService")
+
+repeat task.wait() until Players.LocalPlayer and Players.LocalPlayer:FindFirstChild("PlayerGui")
+
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:FindFirstChildOfClass("PlayerGui") or LocalPlayer:WaitForChild("PlayerGui", 3)
+
+local NotificationLibrary_External = loadstring(
+	getgenv().Game:HttpGet("https://raw.githubusercontent.com/EnterpriseExperience/MicUpSource/refs/heads/main/Notification_Lib_New.lua")
+)()
+
+local Sound_ID_Windows = "rbxassetid://8183296024"
+local Sound_ID_iPhone = "rbxassetid://73722479618078"
+local Sound_ID_Android = "rbxassetid://17582299860"
+local Sound_ID_Universal = "rbxassetid://18595195017"
+
+local Notification_Wrapper = {}
+
+local function Device_Detector()
+	local platform = UserInputService:GetPlatform()
+	local platformMap = {
+		[Enum.Platform.Windows] = "Windows",
+		[Enum.Platform.OSX] = "OSX",
+		[Enum.Platform.IOS] = "iOS",
+		[Enum.Platform.Android] = "Android",
+		[Enum.Platform.XBoxOne] = "Xbox One",
+		[Enum.Platform.PS4] = "PS4",
+		[Enum.Platform.XBox360] = "Xbox 360",
+		[Enum.Platform.WiiU] = "Wii-U",
+		[Enum.Platform.NX] = "Nintendo Switch",
+		[Enum.Platform.Ouya] = "Ouya",
+		[Enum.Platform.AndroidTV] = "Android TV",
+		[Enum.Platform.Chromecast] = "Chromecast",
+		[Enum.Platform.Linux] = "Linux",
+		[Enum.Platform.SteamOS] = "SteamOS",
+		[Enum.Platform.WebOS] = "WebOS",
+		[Enum.Platform.DOS] = "DOS",
+		[Enum.Platform.BeOS] = "BeOS",
+		[Enum.Platform.UWP] = "UWP",
+		[Enum.Platform.PS5] = "PS5",
+		[Enum.Platform.MetaOS] = "MetaOS",
+		[Enum.Platform.None] = "Unknown Device"
+	}
+
+	return platformMap[platform] or "Unknown Device"
+end
+
+local devicePlatform = Device_Detector()
+
+local function Play_Notification_Sound()
+	local Notification_Sound = Instance.new("Sound")
+	Notification_Sound.Parent = Workspace
+	Notification_Sound.Volume = 1
+
+	if devicePlatform == "Windows" then
+		Notification_Sound.SoundId = Sound_ID_Windows
+	elseif devicePlatform == "iOS" then
+		Notification_Sound.SoundId = Sound_ID_iPhone
+	elseif devicePlatform == "Android" then
+		Notification_Sound.SoundId = Sound_ID_Android
+	else
+		Notification_Sound.SoundId = Sound_ID_Universal
+	end
+
+	task.wait()
+	Notification_Sound:Play()
+
+	Notification_Sound.Ended:Connect(function()
+		Notification_Sound:Destroy()
+	end)
+end
+
+function Notification_Wrapper:External_Notification(Type, Content, Time)
+	Time = tonumber(Time) or 5
+
+	task.wait()
+	Play_Notification_Sound()
+	NotificationLibrary_External:SendNotification(tostring(Type), tostring(Content), Time)
+end
+
+function Notification_Wrapper:GuiService_Notify(title, content)
+	Play_Notification_Sound()
+	GuiService:SendNotification({
+		Title = tostring(title),
+		Text = tostring(content),
+	})
+end
+
+function Notification_Wrapper:StarterGui_Notify(title, content, duration)
+	Play_Notification_Sound()
+	StarterGui:SetCore("SendNotification", {
+		Title = tostring(title),
+		Text = tostring(content),
+		Duration = tonumber(duration) or 5,
+		Icon = "rbxassetid://0",
+	})
+end
+
+task.wait(0.2)
+
+function Notification_Wrapper:Rayfield_Notify(title, content, duration)
+	if not getgenv().Rayfield then
+		return Notification_Wrapper:StarterGui_Notify("Error", "Please load one of my script hubs first!", 15)
+	end
+
+	Play_Notification_Sound()
+	getgenv().Rayfield:Notify({
+		Title = tostring(title),
+		Content = tostring(content),
+		Duration = tonumber(duration) or 5,
+		Image = 93594537601787,
+		Actions = {
+			Ignore = {
+				Name = "Alright.",
+				Callback = function()
+					print("...")
+				end
+			},
+		},
+	})
+end
+
+return Notification_Wrapper
