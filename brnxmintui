@@ -406,6 +406,7 @@ function Library:Window(properties)
         Size = properties.Size or dim2(0, 620, 0, 471),
         TabInfo = nil,
         Items = {},
+        Tweening = true,
     }
 
     Library.Items = Library:Create("ScreenGui", {
@@ -568,208 +569,228 @@ function Library:Window(properties)
     Library:Draggify(Items.Window)
     Library:Resizify(Items.Window)
 
+    function Cfg.SetWindowTransparency(value)
+        local objects = {Items.Window}
+        for _, obj in ipairs(Items.Window:GetDescendants()) do
+            table.insert(objects, obj)
+        end
+
+        for _, obj in ipairs(objects) do
+            local props = Library:GetTransparency(obj)
+            if props then
+                for _, prop in ipairs(props) do
+                    obj[prop] = value
+                end
+            end
+        end
+    end
+
+    function Cfg.FadeWindow(visible, speed)
+        local tweens = {}
+        local objects = {Items.Window}
+        for _, obj in ipairs(Items.Window:GetDescendants()) do
+            table.insert(objects, obj)
+        end
+
+        for _, obj in ipairs(objects) do
+            local props = Library:GetTransparency(obj)
+            if props then
+                for _, prop in ipairs(props) do
+                    local tween = Library:Fade(obj, prop, visible, speed or 0.25)
+                    if tween then
+                        table.insert(tweens, tween)
+                    end
+                end
+            end
+        end
+
+        return tweens[#tweens]
+    end
+
+    function Cfg.RevealWindow()
+        Items.Window.Visible = true
+        Cfg.SetWindowTransparency(1)
+        local Tween = Cfg.FadeWindow(true, 0.35)
+
+        if Tween then
+            Library:Connection(Tween.Completed, function()
+                Cfg.Tweening = false
+            end)
+        else
+            Cfg.Tweening = false
+        end
+    end
+
     function Cfg.ToggleMenu(bool)
         if Cfg.Tweening then return end
         Cfg.Tweening = true
         Items.Window.Visible = true
 
-        local Children = Items.Window:GetDescendants()
-        table.insert(Children, Items.Window)
+        local Tween = Cfg.FadeWindow(bool, 0.25)
 
-        local Tween
-        for _, obj in Children do
-            local Index = Library:GetTransparency(obj)
-            if Index then
-                if type(Index) == "table" then
-                    for _, prop in Index do
-                        Tween = Library:Fade(obj, prop, bool)
-                    end
-                else
-                    Tween = Library:Fade(obj, Index, bool)
-                end
-            end
-        end
-
-        Library:Connection(Tween.Completed, function()
-            task.wait()
+        if Tween then
+            Library:Connection(Tween.Completed, function()
+                task.wait()
+                Cfg.Tweening = false
+                Items.Window.Visible = bool
+            end)
+        else
             Cfg.Tweening = false
             Items.Window.Visible = bool
-        end)
+        end
     end
 
     task.spawn(function()
-        local IntroGui = Library:Create("ScreenGui", {
-            Parent = CoreGui,
-            Name = "\0",
-            IgnoreGuiInset = true,
-            ResetOnSpawn = false,
-            ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-        })
+        local IntroGui
+        local ok = pcall(function()
+            IntroGui = Library:Create("ScreenGui", {
+                Parent = CoreGui,
+                Name = "\0",
+                IgnoreGuiInset = true,
+                ResetOnSpawn = false,
+                ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+            })
 
-        local Back = Library:Create("Frame", {
-            Parent = IntroGui,
-            Size = dim2(1, 0, 1, 0),
-            BackgroundColor3 = rgb(3, 6, 5),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0
-        })
+            local Back = Library:Create("Frame", {
+                Parent = IntroGui,
+                Size = dim2(1, 0, 1, 0),
+                BackgroundColor3 = rgb(3, 6, 5),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0
+            })
 
-        local Glow = Library:Create("ImageLabel", {
-            Parent = Back,
-            AnchorPoint = vec2(0.5, 0.5),
-            Position = dim2(0.5, 0, 0.5, 0),
-            Size = dim2(0, 460, 0, 460),
-            BackgroundTransparency = 1,
-            Image = "rbxassetid://18245826428",
-            ImageColor3 = themes.preset.accent,
-            ImageTransparency = 1,
-            BorderSizePixel = 0
-        })
+            local Glow = Library:Create("ImageLabel", {
+                Parent = Back,
+                AnchorPoint = vec2(0.5, 0.5),
+                Position = dim2(0.5, 0, 0.5, 0),
+                Size = dim2(0, 460, 0, 460),
+                BackgroundTransparency = 1,
+                Image = "rbxassetid://18245826428",
+                ImageColor3 = themes.preset.accent,
+                ImageTransparency = 1,
+                BorderSizePixel = 0
+            })
 
-        local Title = Library:Create("TextLabel", {
-            Parent = Back,
-            BackgroundTransparency = 1,
-            AnchorPoint = vec2(0.5, 0.5),
-            Position = dim2(0.5, 0, 0.5, -28),
-            Size = dim2(1, -40, 0, 60),
-            FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
-            Text = "Hello " .. lp.Name .. "  🍃",
-            TextColor3 = themes.preset.text_color,
-            TextSize = 36,
-            TextTransparency = 1,
-            BorderSizePixel = 0
-        })
+            local Title = Library:Create("TextLabel", {
+                Parent = Back,
+                BackgroundTransparency = 1,
+                AnchorPoint = vec2(0.5, 0.5),
+                Position = dim2(0.5, 0, 0.5, -28),
+                Size = dim2(1, -40, 0, 60),
+                FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Bold, Enum.FontStyle.Normal),
+                Text = "Hello " .. lp.Name .. " 🍃",
+                TextColor3 = themes.preset.text_color,
+                TextSize = 36,
+                TextTransparency = 1,
+                BorderSizePixel = 0
+            })
 
-        local Sub = Library:Create("TextLabel", {
-            Parent = Back,
-            BackgroundTransparency = 1,
-            AnchorPoint = vec2(0.5, 0.5),
-            Position = dim2(0.5, 0, 0.5, 18),
-            Size = dim2(1, -40, 0, 40),
-            FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
-            Text = "Welcome to Mint Hub",
-            TextColor3 = themes.preset.accent,
-            TextSize = 22,
-            TextTransparency = 1,
-            BorderSizePixel = 0
-        })
+            local Sub = Library:Create("TextLabel", {
+                Parent = Back,
+                BackgroundTransparency = 1,
+                AnchorPoint = vec2(0.5, 0.5),
+                Position = dim2(0.5, 0, 0.5, 18),
+                Size = dim2(1, -40, 0, 40),
+                FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
+                Text = "Welcome to Mint Hub",
+                TextColor3 = themes.preset.accent,
+                TextSize = 22,
+                TextTransparency = 1,
+                BorderSizePixel = 0
+            })
 
-        local BarOutline = Library:Create("Frame", {
-            Parent = Back,
-            AnchorPoint = vec2(0.5, 0.5),
-            Position = dim2(0.5, 0, 0.5, 72),
-            Size = dim2(0, 260, 0, 12),
-            BackgroundColor3 = rgb(10, 15, 13),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0
-        })
-        Library:Create("UICorner", {Parent = BarOutline, CornerRadius = dim(0, 999)})
+            local BarOutline = Library:Create("Frame", {
+                Parent = Back,
+                AnchorPoint = vec2(0.5, 0.5),
+                Position = dim2(0.5, 0, 0.5, 72),
+                Size = dim2(0, 260, 0, 12),
+                BackgroundColor3 = rgb(10, 15, 13),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0
+            })
+            Library:Create("UICorner", {Parent = BarOutline, CornerRadius = dim(0, 999)})
 
-        local BarInline = Library:Create("Frame", {
-            Parent = BarOutline,
-            Position = dim2(0, 1, 0, 1),
-            Size = dim2(1, -2, 1, -2),
-            BackgroundColor3 = rgb(18, 26, 23),
-            BackgroundTransparency = 1,
-            BorderSizePixel = 0
-        })
-        Library:Create("UICorner", {Parent = BarInline, CornerRadius = dim(0, 999)})
+            local BarInline = Library:Create("Frame", {
+                Parent = BarOutline,
+                Position = dim2(0, 1, 0, 1),
+                Size = dim2(1, -2, 1, -2),
+                BackgroundColor3 = rgb(18, 26, 23),
+                BackgroundTransparency = 1,
+                BorderSizePixel = 0
+            })
+            Library:Create("UICorner", {Parent = BarInline, CornerRadius = dim(0, 999)})
 
-        local BarFill = Library:Create("Frame", {
-            Parent = BarInline,
-            Size = dim2(0, 0, 1, 0),
-            BackgroundColor3 = themes.preset.accent,
-            BorderSizePixel = 0
-        })
-        Library:Create("UICorner", {Parent = BarFill, CornerRadius = dim(0, 999)})
+            local BarFill = Library:Create("Frame", {
+                Parent = BarInline,
+                Size = dim2(0, 0, 1, 0),
+                BackgroundColor3 = themes.preset.accent,
+                BorderSizePixel = 0
+            })
+            Library:Create("UICorner", {Parent = BarFill, CornerRadius = dim(0, 999)})
 
-        local BarGlow = Library:Create("Frame", {
-            Parent = BarFill,
-            Size = dim2(1, 0, 1, 0),
-            BackgroundColor3 = rgb(180, 255, 225),
-            BackgroundTransparency = 0.45,
-            BorderSizePixel = 0
-        })
-        Library:Create("UICorner", {Parent = BarGlow, CornerRadius = dim(0, 999)})
+            local BarGlow = Library:Create("Frame", {
+                Parent = BarFill,
+                Size = dim2(1, 0, 1, 0),
+                BackgroundColor3 = rgb(180, 255, 225),
+                BackgroundTransparency = 0.45,
+                BorderSizePixel = 0
+            })
+            Library:Create("UICorner", {Parent = BarGlow, CornerRadius = dim(0, 999)})
 
-        local Hint = Library:Create("TextLabel", {
-            Parent = Back,
-            BackgroundTransparency = 1,
-            AnchorPoint = vec2(0.5, 0.5),
-            Position = dim2(0.5, 0, 0.5, 102),
-            Size = dim2(1, -40, 0, 26),
-            FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
-            Text = "Loading interface...",
-            TextColor3 = rgb(170, 225, 204),
-            TextSize = 16,
-            TextTransparency = 1,
-            BorderSizePixel = 0
-        })
+            local Hint = Library:Create("TextLabel", {
+                Parent = Back,
+                BackgroundTransparency = 1,
+                AnchorPoint = vec2(0.5, 0.5),
+                Position = dim2(0.5, 0, 0.5, 102),
+                Size = dim2(1, -40, 0, 26),
+                FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.Medium, Enum.FontStyle.Normal),
+                Text = "Loading interface...",
+                TextColor3 = rgb(170, 225, 204),
+                TextSize = 16,
+                TextTransparency = 1,
+                BorderSizePixel = 0
+            })
 
-        Library:Tween(Back, {BackgroundTransparency = 0.18}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Glow, {ImageTransparency = 0.4}, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Title, {TextTransparency = 0}, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Sub, {TextTransparency = 0}, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Hint, {TextTransparency = 0}, TweenInfo.new(0.65, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(BarOutline, {BackgroundTransparency = 0}, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(BarInline, {BackgroundTransparency = 0}, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Back, {BackgroundTransparency = 0.18}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Glow, {ImageTransparency = 0.4}, TweenInfo.new(0.5, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Title, {TextTransparency = 0}, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Sub, {TextTransparency = 0}, TweenInfo.new(0.55, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Hint, {TextTransparency = 0}, TweenInfo.new(0.65, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarOutline, {BackgroundTransparency = 0}, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarInline, {BackgroundTransparency = 0}, TweenInfo.new(0.4, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
-        task.wait(0.2)
-        Library:Tween(BarFill, {Size = dim2(1, 0, 1, 0)}, TweenInfo.new(1.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            task.wait(0.2)
+            Library:Tween(BarFill, {Size = dim2(1, 0, 1, 0)}, TweenInfo.new(1.8, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
-        task.wait(2.35)
+            task.wait(2.35)
 
-        Library:Tween(Back, {BackgroundTransparency = 1}, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Glow, {ImageTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Title, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Sub, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(Hint, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(BarOutline, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(BarInline, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
-        Library:Tween(BarFill, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Back, {BackgroundTransparency = 1}, TweenInfo.new(0.45, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Glow, {ImageTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Title, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Sub, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(Hint, {TextTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarOutline, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarInline, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarFill, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+            Library:Tween(BarGlow, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
-               task.wait(0.5)
-        Items.Window.Visible = true
+            task.wait(0.5)
+        end)
 
-        for _, obj in ipairs(Items.Window:GetDescendants()) do
-            local props = Library:GetTransparency(obj)
-            if props then
-                for _, prop in ipairs(props) do
-                    obj[prop] = 1
-                end
-            end
+        if IntroGui then
+            IntroGui:Destroy()
         end
 
-        local windowProps = Library:GetTransparency(Items.Window)
-        if windowProps then
-            for _, prop in ipairs(windowProps) do
-                Items.Window[prop] = 1
-            end
+        Cfg.RevealWindow()
+
+        if not ok then
+            Cfg.Tweening = false
+            Items.Window.Visible = true
         end
-
-        for _, obj in ipairs(Items.Window:GetDescendants()) do
-            local props = Library:GetTransparency(obj)
-            if props then
-                for _, prop in ipairs(props) do
-                    Library:Fade(obj, prop, true, 0.35)
-                end
-            end
-        end
-
-        if windowProps then
-            for _, prop in ipairs(windowProps) do
-                Library:Fade(Items.Window, prop, true, 0.35)
-            end
-        end
-
-        IntroGui:Destroy()
-
     end)
 
     return setmetatable(Cfg, Library)
 end
-
-
 
 function Library:Tab(properties)
     local Cfg = {
@@ -1557,7 +1578,6 @@ function Library:Label(properties)
     return setmetatable(Cfg, Library)
 end
 
-
 function Library:Textbox(properties)
     local Cfg = {
         Name = properties.Name or "TextBox",
@@ -2208,21 +2228,15 @@ function Library:Configs(window)
     Section2:Label({Name = "Glow Effect"}):Colorpicker({Callback = function(c) Library:RefreshTheme("glow", c) end, Color = themes.preset.glow})
     Section2:Label({Name = "Deselected Elements"}):Colorpicker({Callback = function(c) Library:RefreshTheme("deselected", c) end, Color = themes.preset.deselected})
 
-window.Tweening = true
-Section2:Label({Name = "Menu Bind"}):Keybind({
-    Name = "Menu Bind",
-    Callback = function(bool)
-        if window.Tweening then return end
-        window.ToggleMenu(bool)
-    end,
-    Key = Enum.KeyCode.RightShift,
-    Mode = "Toggle",
-    Default = false
-})
-
-delay(2, function()
-    window.Tweening = false
-end)
+    Section2:Label({Name = "Menu Bind"}):Keybind({
+        Name = "Menu Bind",
+        Callback = function(bool)
+            window.ToggleMenu(bool)
+        end,
+        Key = Enum.KeyCode.RightShift,
+        Mode = "Toggle",
+        Default = false
+    })
 end
 
 function Notifications:RefreshNotifications()
