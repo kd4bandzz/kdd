@@ -567,7 +567,7 @@ function Library:Window(properties)
     Library:Draggify(Items.Window)
     Library:Resizify(Items.Window)
 
-    function Cfg.ToggleMenu(bool)
+       function Cfg.ToggleMenu(bool)
         if Cfg.Tweening then return end
         Cfg.Tweening = true
         Items.Window.Visible = true
@@ -596,8 +596,17 @@ function Library:Window(properties)
         end)
     end
 
+    task.spawn(function()
+        task.wait(0.35)
+        Notifications:Create({
+            Name = "Hello " .. lp.Name .. ", welcome to Mint Hub",
+            LifeTime = 4
+        })
+    end)
+
     return setmetatable(Cfg, Library)
 end
+
 
 function Library:Tab(properties)
     local Cfg = {
