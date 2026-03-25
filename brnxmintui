@@ -407,6 +407,7 @@ function Library:Window(properties)
         TabInfo = nil,
         Items = {},
         Tweening = true,
+        TransparencyCache = {},
     }
 
     Library.Items = Library:Create("ScreenGui", {
@@ -569,6 +570,25 @@ function Library:Window(properties)
     Library:Draggify(Items.Window)
     Library:Resizify(Items.Window)
 
+    function Cfg.CacheTransparency()
+        local objects = {Items.Window}
+        for _, obj in ipairs(Items.Window:GetDescendants()) do
+            table.insert(objects, obj)
+        end
+
+        for _, obj in ipairs(objects) do
+            local props = Library:GetTransparency(obj)
+            if props then
+                Cfg.TransparencyCache[obj] = Cfg.TransparencyCache[obj] or {}
+                for _, prop in ipairs(props) do
+                    if Cfg.TransparencyCache[obj][prop] == nil then
+                        Cfg.TransparencyCache[obj][prop] = obj[prop]
+                    end
+                end
+            end
+        end
+    end
+
     function Cfg.SetWindowTransparency(value)
         local objects = {Items.Window}
         for _, obj in ipairs(Items.Window:GetDescendants()) do
@@ -586,28 +606,35 @@ function Library:Window(properties)
     end
 
     function Cfg.FadeWindow(visible, speed)
-        local tweens = {}
+        local lastTween
         local objects = {Items.Window}
         for _, obj in ipairs(Items.Window:GetDescendants()) do
             table.insert(objects, obj)
         end
 
         for _, obj in ipairs(objects) do
+            local cached = Cfg.TransparencyCache[obj]
             local props = Library:GetTransparency(obj)
-            if props then
+            if cached and props then
                 for _, prop in ipairs(props) do
-                    local tween = Library:Fade(obj, prop, visible, speed or 0.25)
-                    if tween then
-                        table.insert(tweens, tween)
+                    local target = cached[prop]
+                    if target ~= nil then
+                        if visible then
+                            obj[prop] = 1
+                            lastTween = Library:Tween(obj, {[prop] = target}, TweenInfo.new(speed or 0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut))
+                        else
+                            lastTween = Library:Tween(obj, {[prop] = 1}, TweenInfo.new(speed or 0.25, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut))
+                        end
                     end
                 end
             end
         end
 
-        return tweens[#tweens]
+        return lastTween
     end
 
     function Cfg.RevealWindow()
+        Cfg.CacheTransparency()
         Items.Window.Visible = true
         Cfg.SetWindowTransparency(1)
         local Tween = Cfg.FadeWindow(true, 0.35)
@@ -639,6 +666,8 @@ function Library:Window(properties)
             Items.Window.Visible = bool
         end
     end
+
+    Cfg.CacheTransparency()
 
     task.spawn(function()
         local IntroGui
@@ -1577,6 +1606,7 @@ function Library:Label(properties)
 
     return setmetatable(Cfg, Library)
 end
+
 
 function Library:Textbox(properties)
     local Cfg = {
