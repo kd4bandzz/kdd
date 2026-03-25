@@ -432,7 +432,7 @@ function Library:Window(properties)
         Name = "\0",
         Position = dim2(0.5, -Cfg.Size.X.Offset / 2, 0.5, -Cfg.Size.Y.Offset / 2),
         Size = Cfg.Size,
-        
+        Visible = false,
         BorderSizePixel = 0,
         BackgroundColor3 = themes.preset.window_outline
     }); Library:Themify(Items.Window, "window_outline", "BackgroundColor3")
@@ -729,7 +729,9 @@ function Library:Window(properties)
         Library:Tween(BarFill, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
         task.wait(0.5)
+        Items.Window.Visible = true
         IntroGui:Destroy()
+
     end)
 
     return setmetatable(Cfg, Library)
