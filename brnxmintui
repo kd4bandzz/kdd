@@ -729,8 +729,41 @@ function Library:Window(properties)
         Library:Tween(BarFill, {BackgroundTransparency = 1}, TweenInfo.new(0.35, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
         task.wait(0.5)
-        Items.Window.Visible = true
-        IntroGui:Destroy()
+Items.Window.Visible = true
+
+for _, obj in ipairs(Items.Window:GetDescendants()) do
+    local props = Library:GetTransparency(obj)
+    if props then
+        for _, prop in ipairs(props) do
+            obj[prop] = 1
+        end
+    end
+end
+
+local windowProps = Library:GetTransparency(Items.Window)
+if windowProps then
+    for _, prop in ipairs(windowProps) do
+        Items.Window[prop] = 1
+    end
+end
+
+for _, obj in ipairs(Items.Window:GetDescendants()) do
+    local props = Library:GetTransparency(obj)
+    if props then
+        for _, prop in ipairs(props) do
+            Library:Fade(obj, prop, true, 0.35)
+        end
+    end
+end
+
+if windowProps then
+    for _, prop in ipairs(windowProps) do
+        Library:Fade(Items.Window, prop, true, 0.35)
+    end
+end
+
+IntroGui:Destroy()
+
 
     end)
 
