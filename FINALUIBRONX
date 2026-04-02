@@ -531,7 +531,7 @@ Items.Logo = Library:Create("ImageLabel", {
     Image = Cfg.Logo,
     AnchorPoint = vec2(0.5, 0.5),
     Position = dim2(0.5, 0, 0.5, 0),
-    Size = dim2(0, 30, 0, 30),
+    Size = dim2(0, 36, 0, 36),
     BorderSizePixel = 0
 })
 
