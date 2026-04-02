@@ -464,20 +464,6 @@ function Library:Window(properties)
         Thickness = 1
     })
 
-    Items.Glow = Library:Create("ImageLabel", {
-        Parent = Items.Window,
-        Name = "\0",
-        BackgroundTransparency = 1,
-        Image = "rbxassetid://18245826428",
-        ImageColor3 = themes.preset.glow,
-        ImageTransparency = 0.84,
-        ScaleType = Enum.ScaleType.Slice,
-        SliceCenter = rect(vec2(21, 21), vec2(79, 79)),
-        Size = dim2(1, 70, 1, 70),
-        Position = dim2(0, -35, 0, -35),
-        BorderSizePixel = 0
-    }); Library:Themify(Items.Glow, "glow", "ImageColor3")
-
     Items.Inline = Library:Create("Frame", {
         Parent = Items.Window,
         Name = "\0",
