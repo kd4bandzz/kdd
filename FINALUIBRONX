@@ -262,6 +262,21 @@ function Library:Hovering(Object)
     return x >= pos.X and x <= pos.X + size.X and y >= pos.Y and y <= pos.Y + size.Y
 end
 
+function Library:IsDragBlocked(Target, input)
+    local pos = input.Position
+    local objects = CoreGui:GetGuiObjectsAtPosition(pos.X, pos.Y)
+
+    for _, object in ipairs(objects) do
+        if object:IsDescendantOf(Target) then
+            if object:IsA("GuiButton") or object:IsA("TextBox") or object:IsA("ScrollingFrame") then
+                return true
+            end
+        end
+    end
+
+    return false
+end
+
 function Library:Draggify(Handle, Target)
     Target = Target or Handle
 
@@ -282,9 +297,15 @@ function Library:Draggify(Handle, Target)
     end
 
     Handle.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-            beginDrag(input)
+        if input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch then
+            return
         end
+
+        if Handle == Target and Library:IsDragBlocked(Target, input) then
+            return
+        end
+
+        beginDrag(input)
     end)
 
     Handle.InputEnded:Connect(function(input)
@@ -306,6 +327,7 @@ function Library:Draggify(Handle, Target)
         )
     end)
 end
+
 
 
 function Library:Convert(str)
@@ -693,7 +715,7 @@ Items.Pages = Library:Create("Frame", {
         })
     end
 
-    Library:Draggify(Items.DragBar, Items.Window)
+    Library:Draggify(Items.Window)
     Library:Resizify(Items.Window)
 
     function Cfg.CacheTransparency()
