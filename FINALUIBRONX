@@ -1585,37 +1585,55 @@ function Library:Dropdown(properties)
         TextSize = mobile and 15 or 14,
     }); Library:Themify(Items.InnerText, "text_color", "TextColor3")
 
-    Items.DropdownElements = Library:Create("Frame", {
-        Parent = Library.Other,
-        Size = dim2(0, 211, 0, 20),
-        Name = "\0",
-        Position = dim2(0, 0, 0, 0),
-        BorderSizePixel = 0,
-        AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = rgb(10, 14, 12)
-    })
-    Library:Create("UICorner", {Parent = Items.DropdownElements, CornerRadius = dim(0, 9)})
+    local DropdownMaxHeight = mobile and 220 or 180
 
-    Items.DropdownHolder = Library:Create("Frame", {
-        Parent = Items.DropdownElements,
-        Size = dim2(1, -2, 1, -2),
-        Name = "\0",
-        Position = dim2(0, 1, 0, 1),
-        BorderSizePixel = 0,
-        AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = rgb(14, 20, 18)
-    })
-    Library:Create("UICorner", {Parent = Items.DropdownHolder, CornerRadius = dim(0, 9)})
+Items.DropdownElements = Library:Create("Frame", {
+    Parent = Library.Other,
+    Size = dim2(0, 211, 0, 0),
+    Name = "\0",
+    Position = dim2(0, 0, 0, 0),
+    BorderSizePixel = 0,
+    ClipsDescendants = true,
+    BackgroundColor3 = rgb(10, 14, 12)
+})
+Library:Create("UICorner", {Parent = Items.DropdownElements, CornerRadius = dim(0, 9)})
 
-    Library:Create("UIListLayout", {
-        Parent = Items.DropdownHolder,
-        SortOrder = Enum.SortOrder.LayoutOrder
-    })
+Items.DropdownHolder = Library:Create("ScrollingFrame", {
+    Parent = Items.DropdownElements,
+    Active = true,
+    Name = "\0",
+    Position = dim2(0, 1, 0, 1),
+    Size = dim2(1, -2, 1, -2),
+    BorderSizePixel = 0,
+    BackgroundColor3 = rgb(14, 20, 18),
+    CanvasSize = dim2(0, 0, 0, 0),
+    AutomaticCanvasSize = Enum.AutomaticSize.None,
+    ScrollBarThickness = mobile and 6 or 4,
+    ScrollingDirection = Enum.ScrollingDirection.Y,
+    ScrollBarImageColor3 = rgb(80, 108, 98)
+})
+Library:Create("UICorner", {Parent = Items.DropdownHolder, CornerRadius = dim(0, 9)})
 
-    Library:Create("UIPadding", {
-        PaddingBottom = dim(0, 2),
-        Parent = Items.DropdownElements
-    })
+local DropdownLayout = Library:Create("UIListLayout", {
+    Parent = Items.DropdownHolder,
+    SortOrder = Enum.SortOrder.LayoutOrder
+})
+
+Library:Create("UIPadding", {
+    PaddingBottom = dim(0, 2),
+    Parent = Items.DropdownHolder
+})
+
+local function UpdateDropdownSize()
+    local contentY = DropdownLayout.AbsoluteContentSize.Y + 4
+    local visibleY = math.clamp(contentY, 0, DropdownMaxHeight)
+
+    Items.DropdownHolder.CanvasSize = dim2(0, 0, 0, contentY)
+    Items.DropdownElements.Size = dim_offset(Items.Outline.AbsoluteSize.X + 1, visibleY + 2)
+end
+
+Library:Connection(DropdownLayout:GetPropertyChangedSignal("AbsoluteContentSize"), UpdateDropdownSize)
+
 
     function Cfg.RenderOption(text)
         local Button = Library:Create("TextButton", {
@@ -1645,12 +1663,22 @@ function Library:Dropdown(properties)
     end
 
     function Cfg.SetVisible(bool)
-        Items.DropdownElements.Position = dim_offset(Items.Outline.AbsolutePosition.X, Items.Outline.AbsolutePosition.Y + Items.Outline.AbsoluteSize.Y + 6)
-        Items.DropdownElements.Size = dim_offset(Items.Outline.AbsoluteSize.X + 1, 0)
-        Items.DropdownElements.Visible = bool
-        Items.DropdownElements.Parent = bool and Library.Items or Library.Other
-        Library:Tween(Items.Arrow, {Rotation = bool and 180 or 0})
+    Items.DropdownElements.Position = dim_offset(
+        Items.Outline.AbsolutePosition.X,
+        Items.Outline.AbsolutePosition.Y + Items.Outline.AbsoluteSize.Y + 6
+    )
+
+    UpdateDropdownSize()
+
+    if bool then
+        Items.DropdownHolder.CanvasPosition = vec2(0, 0)
     end
+
+    Items.DropdownElements.Visible = bool
+    Items.DropdownElements.Parent = bool and Library.Items or Library.Other
+    Library:Tween(Items.Arrow, {Rotation = bool and 180 or 0})
+end
+
 
     function Cfg.Set(value)
         local Selected = {}
@@ -1697,6 +1725,8 @@ function Library:Dropdown(properties)
                 end
             end)
         end
+
+        UpdateDropdownSize()
     end
 
     Items.Outline.MouseButton1Click:Connect(function()
