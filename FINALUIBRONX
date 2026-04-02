@@ -1570,7 +1570,7 @@ function Library:Dropdown(properties)
     }); Library:Themify(Items.Arrow, "text_color", "ImageColor3")
 
     Items.InnerText = Library:Create("TextLabel", {
-        FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+        Font = Enum.Font.GothamMedium,
         TextColor3 = themes.preset.text_color,
         Text = "",
         Parent = Items.Inline,
@@ -1621,7 +1621,7 @@ function Library:Dropdown(properties)
         local Button = Library:Create("TextButton", {
             Parent = Items.DropdownHolder,
             AutoButtonColor = false,
-            FontFace = Font.new("rbxassetid://12187365364", Enum.FontWeight.SemiBold, Enum.FontStyle.Normal),
+            Font = Enum.Font.GothamMedium,
             Name = "\0",
             TextColor3 = themes.preset.deselected,
             Text = text,
