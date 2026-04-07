@@ -2270,6 +2270,44 @@ local Library do
         return getcustomasset(self.Folders.Assets .. "/" .. ImageData[1])
     end
 
+    Library.ResolveImage = function(self, Image)
+        if not Image then
+            return ""
+        end
+
+        if typeof(Image) == "number" then
+            return "rbxassetid://" .. tostring(Image)
+        end
+
+        if type(Image) ~= "string" then
+            return ""
+        end
+
+        if self.Images[Image] then
+            local CustomImage = self:GetImage(Image)
+            if CustomImage then
+                return CustomImage
+            end
+        end
+
+        if string.match(Image, "^%d+$") then
+            return "rbxassetid://" .. Image
+        end
+
+        if string.find(Image, "rbxassetid://", 1, true) == 1 then
+            return Image
+        end
+
+        if string.match(string.lower(Image), "%.png$") or string.match(string.lower(Image), "%.jpg$") or string.match(string.lower(Image), "%.jpeg$") then
+            local ImagePath = self.Folders.Assets .. "/" .. Image
+            if isfile(ImagePath) then
+                return getcustomasset(ImagePath)
+            end
+        end
+
+        return Image
+    end
+
     Library.Round = function(self, Number, Float)
         local Multiplier = 1 / (Float or 1)
         return MathFloor(Number * Multiplier) / Multiplier
@@ -7401,7 +7439,7 @@ local Library do
                     BorderColor3 = FromRGB(0, 0, 0),
                     Size = UDim2New(0, 22, 0, 22),
                     AnchorPoint = Vector2New(0, 0.5),
-                    Image = "rbxassetid://"..Window.Logo,
+                    Image = Library:ResolveImage(Window.Logo),
                     BackgroundTransparency = 1,
                     Position = UDim2New(0, 7, 0.5, 0),
                     ZIndex = 2,
@@ -7647,7 +7685,7 @@ local Library do
                         Parent = Items["FloatingButton"].Instance,
                         BorderColor3 = FromRGB(0, 0, 0),
                         Name = "\0",
-                        Image = "rbxassetid://" .. Window.Logo,
+                        Image = Library:ResolveImage(Window.Logo),
                         BackgroundTransparency = 1,
                         AnchorPoint = Vector2New(0.5, 0.5),
                         Position = UDim2New(0.5, 0, 0.5, 0),
@@ -7926,7 +7964,7 @@ local Library do
                     BorderColor3 = FromRGB(0, 0, 0),
                     Size = UDim2New(0, 22, 0, 22),
                     AnchorPoint = Vector2New(0, 0.5),
-                    Image = "rbxassetid://"..Page.Icon,
+                    Image = Library:ResolveImage(Page.Icon),
                     BackgroundTransparency = 1,
                     Position = UDim2New(0, 5, 0.5, 0),
                     ZIndex = 2,
@@ -8203,7 +8241,7 @@ local Library do
                     BorderColor3 = FromRGB(0, 0, 0),
                     Size = UDim2New(0, 22, 0, 22),
                     AnchorPoint = Vector2New(0, 0.5),
-                    Image = "rbxassetid://"..SubPage.Icon,
+                    Image = Library:ResolveImage(SubPage.Icon),
                     BackgroundTransparency = 1,
                     Position = UDim2New(0, 5, 0.5, 0),
                     ZIndex = 2,
