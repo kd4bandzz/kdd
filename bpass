@@ -7860,6 +7860,7 @@ local Library do
             Library.SearchItems[Page] = { }
 
             local FallbackPageWidth = math.max(62, (#Page.Name * 8) + 38)
+            local CollapsedPageWidth = 34
 
             local Items = { } do
                 Items["PageContent"] = Instances:Create("Frame", {
@@ -7936,7 +7937,7 @@ local Library do
                     Parent = Items["Inactive"].Instance,
                     Name = "\0",
                     FontFace = Library.Font,
-                    Visible = true,
+                    Visible = false,
                     Active = true,
                     AnchorPoint = Vector2New(0, 0.5),
                     ZIndex = 2,
@@ -8046,9 +8047,9 @@ local Library do
 
                 task.defer(function()
                     local width = math.max(FallbackPageWidth, Items["Text"].Instance.TextBounds.X + 40)
-                    Items["Inactive"].Instance.Size = UDim2New(0, width, 0, 32)
+                    Items["Inactive"].Instance.Size = UDim2New(0, CollapsedPageWidth, 0, 32)
                     Items["Inactive"].Instance.BackgroundTransparency = 0.35
-                    Items["Text"].Instance.TextTransparency = 0.35
+                    Items["Text"].Instance.TextTransparency = 1
                     Items["Icon"].Instance.ImageTransparency = 0.35
                 end)
             end
@@ -8075,11 +8076,15 @@ local Library do
 
                     Library.CurrentPage = Page
                 else
-                    Items["Text"].Instance.Visible = true 
-                    Items["Inactive"]:Tween(nil, {BackgroundTransparency = 0.35, Size = UDim2New(0, Items["Text"].Instance.TextBounds.X + 40, 0, 32)})
+                    Items["Inactive"]:Tween(nil, {BackgroundTransparency = 0.35, Size = UDim2New(0, CollapsedPageWidth, 0, 32)})
                     Items["Icon"]:ChangeItemTheme({ImageColor3 = "Image"})
                     Items["Icon"]:Tween(nil, {ImageColor3 = Library.Theme.Image, ImageTransparency = 0.35}) 
-                    Items["Text"]:Tween(nil, {TextTransparency = 0.35})
+                    Items["Text"]:Tween(nil, {TextTransparency = 1})
+                    task.delay(0.12, function()
+                        if not Page.Active then
+                            Items["Text"].Instance.Visible = false
+                        end
+                    end)
                 end
 
                 local Descendants = Items["PageContent"].Instance:GetDescendants()
@@ -8141,6 +8146,7 @@ local Library do
             Library.SearchItems[SubPage] = { }
 
             local FallbackSubPageWidth = math.max(62, (#SubPage.Name * 8) + 38)
+            local CollapsedSubPageWidth = 34
 
             local Items = { } do
                 Items["PageContent"] = Instances:Create("Frame", {
@@ -8207,7 +8213,7 @@ local Library do
                     Parent = Items["Inactive"].Instance,
                     Name = "\0",
                     FontFace = Library.Font,
-                    Visible = true,
+                    Visible = false,
                     Active = true,
                     AnchorPoint = Vector2New(0, 0.5),
                     ZIndex = 2,
@@ -8232,9 +8238,9 @@ local Library do
 
                 task.defer(function()
                     local width = math.max(FallbackSubPageWidth, Items["Text"].Instance.TextBounds.X + 40)
-                    Items["Inactive"].Instance.Size = UDim2New(0, width, 0, 32)
+                    Items["Inactive"].Instance.Size = UDim2New(0, CollapsedSubPageWidth, 0, 32)
                     Items["Inactive"].Instance.BackgroundTransparency = 0.35
-                    Items["Text"].Instance.TextTransparency = 0.35
+                    Items["Text"].Instance.TextTransparency = 1
                     Items["Icon"].Instance.ImageTransparency = 0.35
                 end)
 
@@ -8294,11 +8300,15 @@ local Library do
 
                     Library.CurrentPage = SubPage
                 else
-                    Items["Text"].Instance.Visible = true 
-                    Items["Inactive"]:Tween(nil, {BackgroundTransparency = 0.35, Size = UDim2New(0, Items["Text"].Instance.TextBounds.X + 40, 0, 32)})
+                    Items["Inactive"]:Tween(nil, {BackgroundTransparency = 0.35, Size = UDim2New(0, CollapsedSubPageWidth, 0, 32)})
                     Items["Icon"]:ChangeItemTheme({ImageColor3 = "Image"})
                     Items["Icon"]:Tween(nil, {ImageColor3 = Library.Theme.Image, ImageTransparency = 0.35}) 
-                    Items["Text"]:Tween(nil, {TextTransparency = 0.35})
+                    Items["Text"]:Tween(nil, {TextTransparency = 1})
+                    task.delay(0.12, function()
+                        if not SubPage.Active then
+                            Items["Text"].Instance.Visible = false
+                        end
+                    end)
                 end
 
                 local Descendants = Items["PageContent"].Instance:GetDescendants()
