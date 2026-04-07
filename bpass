@@ -7859,6 +7859,8 @@ local Library do
 
             Library.SearchItems[Page] = { }
 
+            local FallbackPageWidth = math.max(62, (#Page.Name * 8) + 38)
+
             local Items = { } do
                 Items["PageContent"] = Instances:Create("Frame", {
                     Parent = Page.Window.Items["Content"].Instance,
@@ -7902,7 +7904,7 @@ local Library do
                     Text = "",
                     AutoButtonColor = false,
                     BackgroundTransparency = 1,
-                    Size = UDim2New(0, 0, 0, 32),
+                    Size = UDim2New(0, FallbackPageWidth, 0, 32),
                     BorderSizePixel = 0,
                     ZIndex = 2,
                     TextSize = 14,
@@ -8043,7 +8045,7 @@ local Library do
                 end
 
                 task.defer(function()
-                    local width = math.max(42, Items["Text"].Instance.TextBounds.X + 40)
+                    local width = math.max(FallbackPageWidth, Items["Text"].Instance.TextBounds.X + 40)
                     Items["Inactive"].Instance.Size = UDim2New(0, width, 0, 32)
                     Items["Inactive"].Instance.BackgroundTransparency = 0.35
                     Items["Text"].Instance.TextTransparency = 0.35
@@ -8138,6 +8140,8 @@ local Library do
 
             Library.SearchItems[SubPage] = { }
 
+            local FallbackSubPageWidth = math.max(62, (#SubPage.Name * 8) + 38)
+
             local Items = { } do
                 Items["PageContent"] = Instances:Create("Frame", {
                     Parent = SubPage.Page.Items["Columns"].Instance,
@@ -8171,7 +8175,7 @@ local Library do
                     AutoButtonColor = false,
                     AutomaticSize = Enum.AutomaticSize.X,
                     BackgroundTransparency = 1,
-                    Size = UDim2New(0, 0, 0, 32),
+                    Size = UDim2New(0, FallbackSubPageWidth, 0, 32),
                     BorderSizePixel = 0,
                     ZIndex = 2,
                     TextSize = 14,
@@ -8227,7 +8231,7 @@ local Library do
                 })
 
                 task.defer(function()
-                    local width = math.max(42, Items["Text"].Instance.TextBounds.X + 40)
+                    local width = math.max(FallbackSubPageWidth, Items["Text"].Instance.TextBounds.X + 40)
                     Items["Inactive"].Instance.Size = UDim2New(0, width, 0, 32)
                     Items["Inactive"].Instance.BackgroundTransparency = 0.35
                     Items["Text"].Instance.TextTransparency = 0.35
