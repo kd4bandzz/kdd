@@ -1893,13 +1893,13 @@ local Library do
                 BorderSizePixel = 0,
                 ZIndex = 2,
                 AutomaticSize = Enum.AutomaticSize.XY,
-                BackgroundColor3 = FromRGB(16, 18, 21)
+                BackgroundColor3 = FromRGB(16, 16, 16)
             })  Newtooltip:AddToTheme({BackgroundColor3 = "Background"})
 
             local UIStroke = Instances:Create("UIStroke", {
                 Parent = Newtooltip.Instance,
                 Name = "\0",
-                Color = FromRGB(32, 36, 42),
+                Color = FromRGB(44, 44, 44),
                 Transparency = 1,
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             })  UIStroke:AddToTheme({Color = "Border"})
@@ -2133,16 +2133,16 @@ local Library do
 
     local Themes = {
         ["Preset"] = {
-            ["Background"] = FromRGB(16, 18, 21),
-            ["Inline"] = FromRGB(22, 25, 29),
+            ["Background"] = FromRGB(16, 16, 16),
+            ["Inline"] = FromRGB(21, 21, 21),
             ["Shadow"] = FromRGB(0, 0, 0),
             ["Text"] = FromRGB(255, 255, 255),
             ["Image"] = FromRGB(255, 255, 255),
             ["Dark Gradient"] = FromRGB(211, 211, 211),
             ["Inactive Text"] = FromRGB(185, 185, 185),
-            ["Element"] = FromRGB(34, 39, 45),
+            ["Element"] = FromRGB(26, 26, 26),
             ["Accent"] = FromRGB(196, 231, 255),
-            ["Border"] = FromRGB(32, 36, 42)
+            ["Border"] = FromRGB(44, 44, 44)
         },
 
         ["Halloween"] = {
@@ -7298,7 +7298,7 @@ local Library do
                     ZIndex = 2,
                     BorderSizePixel = 0,
                     Visible = false,
-                    BackgroundColor3 = FromRGB(16, 18, 21)
+                    BackgroundColor3 = FromRGB(16, 16, 16)
                 })  Items["MainFrame"]:AddToTheme({BackgroundColor3 = "Background"})
 
                 Items["MainFrame"]:MakeDraggable()
@@ -7320,7 +7320,7 @@ local Library do
                     Size = UDim2New(0, 0, 0, 46),
                     ZIndex = 2,
                     AutomaticSize = Enum.AutomaticSize.X,
-                    BackgroundColor3 = FromRGB(22, 25, 29)
+                    BackgroundColor3 = FromRGB(21, 21, 21)
                 })  Items["Pages"]:AddToTheme({BackgroundColor3 = "Inline"})
 
                 Instances:Create("UICorner", {
@@ -7332,7 +7332,7 @@ local Library do
                 Instances:Create("UIStroke", {
                     Parent = Items["Pages"].Instance,
                     Name = "\0",
-                    Color = FromRGB(32, 36, 42),
+                    Color = FromRGB(44, 44, 44),
                     Transparency = 0.25,
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
@@ -7388,7 +7388,7 @@ local Library do
                     BorderColor3 = FromRGB(0, 0, 0),
                     ZIndex = 2,
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(22, 25, 29)
+                    BackgroundColor3 = FromRGB(21, 21, 21)
                 })  Items["Topbar"]:AddToTheme({BackgroundColor3 = "Inline"})
 
                 Instances:Create("UICorner", {
@@ -7406,7 +7406,7 @@ local Library do
                     Size = UDim2New(1, 0, 0, 3),
                     ZIndex = 2,
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(22, 25, 29)
+                    BackgroundColor3 = FromRGB(21, 21, 21)
                 }):AddToTheme({BackgroundColor3 = "Inline"})
 
                 Instances:Create("Frame", {
@@ -7419,7 +7419,7 @@ local Library do
                     Size = UDim2New(1, 0, 0, 1),
                     ZIndex = 2,
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(32, 36, 42)
+                    BackgroundColor3 = FromRGB(44, 44, 44)
                 }):AddToTheme({BackgroundColor3 = "Border"})
 
                 Instances:Create("UIGradient", {
@@ -7476,7 +7476,7 @@ local Library do
                     BorderSizePixel = 0,
                     ZIndex = 2,
                     AutomaticSize = Enum.AutomaticSize.X,
-                    BackgroundColor3 = FromRGB(16, 18, 21)
+                    BackgroundColor3 = FromRGB(16, 16, 16)
                 })  Items["Version"]:AddToTheme({BackgroundColor3 = "Background"})
 
                 Instances:Create("UIPadding", {
@@ -7514,7 +7514,7 @@ local Library do
                 Instances:Create("UIStroke", {
                     Parent = Items["Version"].Instance,
                     Name = "\0",
-                    Color = FromRGB(32, 36, 42),
+                    Color = FromRGB(44, 44, 44),
                     Transparency = 0.4000000059604645,
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
@@ -7575,7 +7575,7 @@ local Library do
                 Instances:Create("UIStroke", {
                     Parent = Items["MainFrame"].Instance,
                     Name = "\0",
-                    Color = FromRGB(32, 36, 42),
+                    Color = FromRGB(44, 44, 44),
                     Transparency = 0.4000000059604645,
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
@@ -7601,7 +7601,7 @@ local Library do
                     BorderColor3 = FromRGB(0, 0, 0),
                     ZIndex = 2,
                     BorderSizePixel = 0,
-                    BackgroundColor3 = FromRGB(22, 25, 29)
+                    BackgroundColor3 = FromRGB(21, 21, 21)
                 })  Items["Search"]:AddToTheme({BackgroundColor3 = "Inline"})
 
                 Instances:Create("UIGradient", {
@@ -7622,7 +7622,7 @@ local Library do
                 Instances:Create("UIStroke", {
                     Parent = Items["Search"].Instance,
                     Name = "\0",
-                    Color = FromRGB(32, 36, 42),
+                    Color = FromRGB(44, 44, 44),
                     Transparency = 0.4000000059604645,
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Border
                 }):AddToTheme({Color = "Border"})
@@ -7948,7 +7948,7 @@ local Library do
                     BorderSizePixel = 0,
                     ZIndex = 2,
                     TextSize = 14,
-                    BackgroundColor3 = FromRGB(23, 26, 30)
+                    BackgroundColor3 = FromRGB(21, 21, 21)
                 })  Items["Inactive"]:AddToTheme({BackgroundColor3 = "Inline"})
 
                 Instances:Create("UICorner", {
@@ -8047,7 +8047,7 @@ local Library do
                         Size = UDim2New(0, 0, 0, 45),
                         ZIndex = 2,
                         AutomaticSize = Enum.AutomaticSize.X,
-                        BackgroundColor3 = FromRGB(22, 25, 29)
+                        BackgroundColor3 = FromRGB(21, 21, 21)
                     })  Items["SubPages"]:AddToTheme({BackgroundColor3 = "Inline"})
 
                     Instances:Create("UICorner", {
@@ -8225,7 +8225,7 @@ local Library do
                     BorderSizePixel = 0,
                     ZIndex = 2,
                     TextSize = 14,
-                    BackgroundColor3 = FromRGB(16, 18, 21)
+                    BackgroundColor3 = FromRGB(16, 16, 16)
                 })  Items["Inactive"]:AddToTheme({BackgroundColor3 = "Background"})
 
                 Instances:Create("UICorner", {
