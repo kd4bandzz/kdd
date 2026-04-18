@@ -33,13 +33,13 @@ getgenv().Library = {
 local themes = {
     preset = {
         accent = rgb(102, 255, 201),
-        window_outline = rgb(18, 22, 20),
-        inline = rgb(6, 7, 7),
-        background = rgb(0, 0, 0),
-        visible_backgrounds = rgb(8, 10, 9),
+        window_outline = rgb(64, 85, 75),
+        inline = rgb(24, 27, 27),
+        background = rgb(18, 20, 20),
+        visible_backgrounds = rgb(36, 42, 39),
         text_color = rgb(228, 255, 246),
         glow = rgb(102, 255, 201),
-        deselected = rgb(116, 126, 122),
+        deselected = rgb(138, 150, 145),
     },
     utility = {},
     gradients = {
@@ -434,8 +434,8 @@ end
 function Library:Window(properties)
     local mobile = InputService.TouchEnabled
     local viewport = Camera.ViewportSize
-    local sidebarWidth = mobile and 64 or 58
-    local defaultWidth = mobile and math.clamp(viewport.X - 24, 320, 460) or 565
+    local sidebarWidth = mobile and 164 or 150
+    local defaultWidth = mobile and math.clamp(viewport.X - 24, 320, 520) or 680
     local defaultHeight = mobile and math.clamp(viewport.Y - 24, 360, 520) or 400
 
     local Cfg = {
@@ -475,7 +475,7 @@ function Library:Window(properties)
         Size = Cfg.Size,
         Visible = false,
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(0, 0, 0)
+        BackgroundColor3 = rgb(18, 20, 20)
     })
     Library:Create("UICorner", {Parent = Items.Window, CornerRadius = dim(0, 0)})
 
@@ -489,7 +489,7 @@ Cfg.WindowPosition = Items.Window.Position
 
     Items.WindowStroke = Library:Create("UIStroke", {
         Parent = Items.Window,
-        Color = rgb(18, 22, 20),
+        Color = rgb(64, 85, 75),
         Transparency = 0.25,
         Thickness = 1
     })
@@ -500,7 +500,7 @@ Cfg.WindowPosition = Items.Window.Position
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(0, 0, 0)
+        BackgroundColor3 = rgb(20, 23, 23)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 0)})
 
@@ -510,7 +510,7 @@ Cfg.WindowPosition = Items.Window.Position
         Position = dim2(0, 0, 0, 0),
         Size = dim2(0, sidebarWidth, 1, 0),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.TabHolderFrame, CornerRadius = dim(0, 0)})
 
@@ -520,7 +520,7 @@ Cfg.WindowPosition = Items.Window.Position
         Position = dim2(1, -1, 0, 10),
         Size = dim2(0, 1, 1, -20),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(18, 22, 20)
+        BackgroundColor3 = rgb(64, 85, 75)
     })
 
 Items.BrandHolder = Library:Create("Frame", {
@@ -530,13 +530,13 @@ Items.BrandHolder = Library:Create("Frame", {
     Size = dim2(0, sidebarWidth - 10, 0, 42),
     BorderSizePixel = 0,
     BackgroundTransparency = 1,
-    BackgroundColor3 = rgb(5, 6, 6)
+    BackgroundColor3 = rgb(29, 33, 32)
 })
 Library:Create("UICorner", {Parent = Items.BrandHolder, CornerRadius = dim(0, 4)})
 
 Items.BrandStroke = Library:Create("UIStroke", {
     Parent = Items.BrandHolder,
-    Color = rgb(18, 22, 20),
+    Color = rgb(64, 85, 75),
     Transparency = 1,
     Thickness = 1
 })
@@ -548,7 +548,7 @@ Items.Logo = Library:Create("ImageLabel", {
     Image = Cfg.Logo,
     AnchorPoint = vec2(0.5, 0.5),
     Position = dim2(0.5, 0, 0.5, 0),
-    Size = dim2(0, 24, 0, 24),
+    Size = dim2(0, 32, 0, 32),
     BorderSizePixel = 0,
     ImageColor3 = themes.preset.accent
 }); Library:Themify(Items.Logo, "accent", "ImageColor3")
@@ -582,13 +582,13 @@ Items.Logo = Library:Create("ImageLabel", {
         Position = dim2(0, sidebarWidth + 8, 0, 8),
         Size = dim2(1, -(sidebarWidth + 16), 1, -16),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(0, 0, 0)
+        BackgroundColor3 = rgb(20, 23, 23)
     })
     Library:Create("UICorner", {Parent = Items.PageHolder, CornerRadius = dim(0, 0)})
 
 Items.PageStroke = Library:Create("UIStroke", {
     Parent = Items.PageHolder,
-    Color = rgb(18, 22, 20),
+    Color = rgb(64, 85, 75),
     Transparency = 0.25,
     Thickness = 1
 })
@@ -617,7 +617,7 @@ Items.Filler2 = Library:Create("Frame", {
     Position = dim2(0, 16, 1, -1),
     Size = dim2(1, -32, 0, 1),
     BorderSizePixel = 0,
-    BackgroundColor3 = rgb(18, 22, 20)
+    BackgroundColor3 = rgb(64, 85, 75)
 })
 
 Items.SectionTitle = Library:Create("TextLabel", {
@@ -679,7 +679,7 @@ Items.Pages = Library:Create("Frame", {
         Parent = Items.Pages,
         Size = dim2(1, 0, 1, 0),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(0, 0, 0),
+        BackgroundColor3 = rgb(20, 23, 23),
         ZIndex = 20,
     })
 
@@ -692,14 +692,14 @@ Items.Pages = Library:Create("Frame", {
         Position = dim2(0, 12, 0.5, 0),
         Size = mobile and dim2(0, 52, 0, 52) or dim2(0, 44, 0, 44),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6),
+        BackgroundColor3 = rgb(29, 33, 32),
         ZIndex = 50
     })
     Library:Create("UICorner", {Parent = Items.MenuButton, CornerRadius = dim(0, 999)})
 
 Items.MenuButtonStroke = Library:Create("UIStroke", {
     Parent = Items.MenuButton,
-    Color = rgb(18, 22, 20),
+    Color = rgb(64, 85, 75),
     Transparency = 0.2,
     Thickness = 1
 })
@@ -711,7 +711,7 @@ Items.MenuButtonIcon = Library:Create("ImageLabel", {
     Image = Cfg.Logo,
     AnchorPoint = vec2(0.5, 0.5),
     Position = dim2(0.5, 0, 0.5, 0),
-    Size = mobile and dim2(0, 24, 0, 24) or dim2(0, 20, 0, 20),
+    Size = mobile and dim2(0, 30, 0, 30) or dim2(0, 28, 0, 28),
     BorderSizePixel = 0,
     ImageColor3 = themes.preset.accent,
     ZIndex = 51
@@ -725,7 +725,7 @@ Items.MenuButtonScale = Library:Create("UIScale", {
 
 function Cfg.UpdateMenuButton()
     Library:Tween(Items.MenuButton, {
-        BackgroundColor3 = Items.Window.Visible and rgb(5, 6, 6) or rgb(8, 10, 9)
+        BackgroundColor3 = Items.Window.Visible and rgb(29, 33, 32) or rgb(36, 42, 39)
     })
     Library:Tween(Items.MenuButtonIcon, {
         ImageColor3 = Items.Window.Visible and themes.preset.accent or rgb(220, 255, 241)
@@ -925,7 +925,7 @@ end
             local Back = Library:Create("Frame", {
                 Parent = IntroGui,
                 Size = dim2(1, 0, 1, 0),
-                BackgroundColor3 = rgb(4, 6, 5),
+                BackgroundColor3 = rgb(26, 31, 29),
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0
             })
@@ -984,7 +984,7 @@ end
                 AnchorPoint = vec2(0.5, 0),
                 Position = dim2(0.5, 0, 0, 138),
                 Size = dim2(0, mobile and 210 or 240, 0, 6),
-                BackgroundColor3 = rgb(8, 10, 9),
+                BackgroundColor3 = rgb(36, 42, 39),
                 BackgroundTransparency = 1,
                 BorderSizePixel = 0
             })
@@ -1080,7 +1080,7 @@ function Library:Tab(properties)
         Position = dim2(0, 0, 0, 0),
         Size = dim2(1, 0, 1, 0),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(10, 12, 11)
+        BackgroundColor3 = rgb(37, 43, 40)
     })
     Library:Create("UICorner", {Parent = Items.Holder, CornerRadius = dim(0, 6)})
     Items.HolderScale = Library:Create("UIScale", {
@@ -1090,7 +1090,7 @@ function Library:Tab(properties)
 
     Items.Stroke = Library:Create("UIStroke", {
         Parent = Items.Holder,
-        Color = rgb(18, 24, 21),
+        Color = rgb(76, 102, 91),
         Transparency = 0.45,
         Thickness = 1
     })
@@ -1098,8 +1098,8 @@ function Library:Tab(properties)
     Items.Indicator = Library:Create("Frame", {
         Parent = Items.Holder,
         Name = "\0",
-        Position = dim2(0.5, -2, 0.5, -2),
-        Size = dim2(0, 4, 0, 4),
+        Position = dim2(0, 8, 0.5, -9),
+        Size = dim2(0, 3, 0, 18),
         BorderSizePixel = 0,
         BackgroundColor3 = themes.preset.accent,
         BackgroundTransparency = 1,
@@ -1110,11 +1110,11 @@ function Library:Tab(properties)
         ImageColor3 = themes.preset.deselected,
         Parent = Items.Holder,
         Name = "\0",
-        AnchorPoint = vec2(0.5, 0.5),
+        AnchorPoint = vec2(0, 0.5),
         Image = Cfg.Icon,
         BackgroundTransparency = 1,
-        Position = dim2(0.5, 0, 0.5, 0),
-        Size = dim2(0, mobile and 22 or 20, 0, mobile and 22 or 20),
+        Position = dim2(0, 20, 0.5, 0),
+        Size = dim2(0, mobile and 26 or 24, 0, mobile and 26 or 24),
         BorderSizePixel = 0,
     }); Library:Themify(Items.Icon, "deselected", "ImageColor3"); Library:Themify(Items.Icon, "accent", "ImageColor3")
 
@@ -1125,10 +1125,10 @@ function Library:Tab(properties)
         Parent = Items.Holder,
         Name = "\0",
         AnchorPoint = vec2(0, 0.5),
-        Visible = false,
-        Size = dim2(0, 0, 0, 0),
+        Visible = true,
+        Size = dim2(1, -52, 0, 18),
         BackgroundTransparency = 1,
-        Position = dim2(1, 0, 0.5, 0),
+        Position = dim2(0, 50, 0.5, 0),
         TextXAlignment = Enum.TextXAlignment.Left,
         BorderSizePixel = 0,
         ZIndex = 2,
@@ -1218,11 +1218,11 @@ function Cfg.OpenTab()
     Library:Tween(self.Items.Fade, {BackgroundTransparency = 1}, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.InOut))
 
     Library:Tween(Items.Indicator, {BackgroundTransparency = 0})
-    Library:Tween(Items.Holder, {BackgroundTransparency = 0.82})
+    Library:Tween(Items.Holder, {BackgroundTransparency = 0.18})
     Library:Tween(Items.Icon, {ImageColor3 = themes.preset.accent})
     Library:Tween(Items.SectionTitle, {TextColor3 = themes.preset.text_color})
     Library:Tween(Items.Stroke, {Transparency = 0.1})
-    Library:Tween(Items.HolderScale, {Scale = 1.08}, TweenInfo.new(0.22, Enum.EasingStyle.Back, Enum.EasingDirection.Out))
+    Library:Tween(Items.HolderScale, {Scale = 1.02}, TweenInfo.new(0.22, Enum.EasingStyle.Back, Enum.EasingDirection.Out))
 
     Items.Pages.Parent = self.Items.Pages
     Items.Pages.Visible = true
@@ -1238,10 +1238,10 @@ end
     if not mobile then
     Items.Button.MouseEnter:Connect(function()
         if self.TabInfo == Items then return end
-        Library:Tween(Items.Holder, {BackgroundTransparency = 0.86})
+        Library:Tween(Items.Holder, {BackgroundTransparency = 0.32})
         Library:Tween(Items.Icon, {ImageColor3 = rgb(186, 236, 216)})
         Library:Tween(Items.SectionTitle, {TextColor3 = rgb(214, 245, 233)})
-        Library:Tween(Items.HolderScale, {Scale = 1.06}, TweenInfo.new(0.2, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
+        Library:Tween(Items.HolderScale, {Scale = 1.015}, TweenInfo.new(0.2, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
     end)
 
     Items.Button.MouseLeave:Connect(function()
@@ -1280,13 +1280,13 @@ function Library:Section(properties)
         Size = dim2(0, 0, 0, 0),
         BorderSizePixel = 0,
         AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Section, CornerRadius = dim(0, 3)})
 
     Items.Stroke = Library:Create("UIStroke", {
         Parent = Items.Section,
-        Color = rgb(18, 24, 21),
+        Color = rgb(76, 102, 91),
         Transparency = 0.35,
         Thickness = 1
     })
@@ -1298,7 +1298,7 @@ function Library:Section(properties)
         Position = dim2(0, 1, 0, 1),
         BorderSizePixel = 0,
         AutomaticSize = Enum.AutomaticSize.Y,
-        BackgroundColor3 = rgb(7, 8, 8)
+        BackgroundColor3 = rgb(33, 37, 36)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 3)})
 
@@ -1327,7 +1327,7 @@ function Library:Section(properties)
         Position = dim2(0, 10, 0, 29),
         Size = dim2(1, -20, 0, 1),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(17, 21, 19)
+        BackgroundColor3 = rgb(55, 70, 64)
     })
 
     Items.Elements = Library:Create("Frame", {
@@ -1418,7 +1418,7 @@ function Library:Toggle(properties)
         Parent = Items.Components,
         Size = dim2(0, mobile and 18 or 16, 0, mobile and 18 or 16),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.ToggleComponent, CornerRadius = dim(0, 3)})
 
@@ -1428,7 +1428,7 @@ function Library:Toggle(properties)
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(8, 10, 9)
+        BackgroundColor3 = rgb(36, 42, 39)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 3)})
 
@@ -1439,7 +1439,7 @@ function Library:Toggle(properties)
         Position = dim2(0.5, 0, 0.5, 0),
         Size = dim2(0, mobile and 8 or 7, 0, mobile and 8 or 7),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(0, 0, 0),
+        BackgroundColor3 = rgb(13, 16, 15),
         BackgroundTransparency = 1
     })
     Library:Create("UICorner", {Parent = Items.Circle, CornerRadius = dim(0, 999)})
@@ -1460,15 +1460,15 @@ Items.CircleScale = Library:Create("UIScale", {
     Cfg.Callback(bool or false)
 
     Library:Tween(Items.ToggleComponent, {
-        BackgroundColor3 = bool and themes.preset.accent or rgb(5, 6, 6)
+        BackgroundColor3 = bool and themes.preset.accent or rgb(29, 33, 32)
     }, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
     Library:Tween(Items.Inline, {
-        BackgroundColor3 = bool and themes.preset.accent or rgb(8, 10, 9)
+        BackgroundColor3 = bool and themes.preset.accent or rgb(36, 42, 39)
     }, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
     Library:Tween(Items.Circle, {
-        BackgroundColor3 = rgb(0, 0, 0),
+        BackgroundColor3 = rgb(13, 16, 15),
         BackgroundTransparency = bool and 0 or 1,
         Position = dim2(0.5, 0, 0.5, 0)
     }, TweenInfo.new(0.18, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
@@ -1570,7 +1570,7 @@ function Library:Slider(properties)
         Size = dim2(1, 0, 0, mobile and 5 or 4),
         Selectable = false,
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Outline, CornerRadius = dim(0, 999)})
 
@@ -1692,7 +1692,7 @@ function Library:Dropdown(properties)
         Size = dim2(1, 0, 0, mobile and 28 or 26),
         Selectable = false,
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Outline, CornerRadius = dim(0, 9)})
 
@@ -1702,7 +1702,7 @@ function Library:Dropdown(properties)
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(8, 10, 9)
+        BackgroundColor3 = rgb(36, 42, 39)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 9)})
 
@@ -1743,7 +1743,7 @@ Items.DropdownElements = Library:Create("Frame", {
     Position = dim2(0, 0, 0, 0),
     BorderSizePixel = 0,
     ClipsDescendants = true,
-    BackgroundColor3 = rgb(5, 6, 6)
+    BackgroundColor3 = rgb(29, 33, 32)
 })
 Library:Create("UICorner", {Parent = Items.DropdownElements, CornerRadius = dim(0, 9)})
 
@@ -1760,12 +1760,12 @@ Items.DropdownHolder = Library:Create("ScrollingFrame", {
     Position = dim2(0, 1, 0, 1),
     Size = dim2(1, -2, 1, -2),
     BorderSizePixel = 0,
-    BackgroundColor3 = rgb(8, 10, 9),
+    BackgroundColor3 = rgb(36, 42, 39),
     CanvasSize = dim2(0, 0, 0, 0),
     AutomaticCanvasSize = Enum.AutomaticSize.None,
     ScrollBarThickness = mobile and 6 or 4,
     ScrollingDirection = Enum.ScrollingDirection.Y,
-    ScrollBarImageColor3 = rgb(80, 108, 98)
+    ScrollBarImageColor3 = rgb(90, 170, 142)
 })
 Library:Create("UICorner", {Parent = Items.DropdownHolder, CornerRadius = dim(0, 9)})
 
@@ -1804,7 +1804,7 @@ Library:Connection(DropdownLayout:GetPropertyChangedSignal("AbsoluteContentSize"
         Text = text,
         AutomaticSize = Enum.AutomaticSize.XY,
         Size = dim2(1, 0, 0, 0),
-        BackgroundColor3 = rgb(12, 15, 14),
+        BackgroundColor3 = rgb(39, 46, 43),
         BackgroundTransparency = 1,
         TextXAlignment = Enum.TextXAlignment.Left,
         BorderSizePixel = 0,
@@ -2072,7 +2072,7 @@ function Library:Textbox(properties)
         Position = dim2(0, 0, 0, 22),
         Size = dim2(1, 0, 0, 22),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Outline, CornerRadius = dim(0, 7)})
 
@@ -2082,7 +2082,7 @@ function Library:Textbox(properties)
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(7, 9, 8)
+        BackgroundColor3 = rgb(34, 39, 37)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 7)})
 
@@ -2150,7 +2150,7 @@ function Library:Button(properties)
         Size = dim2(1, 0, 0, 22),
         Selectable = false,
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Outline, CornerRadius = dim(0, 7)})
 
@@ -2160,7 +2160,7 @@ function Library:Button(properties)
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(7, 9, 8)
+        BackgroundColor3 = rgb(34, 39, 37)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 7)})
 
@@ -2188,7 +2188,7 @@ function Library:Button(properties)
     if not InputService.TouchEnabled then
     Items.Outline.MouseEnter:Connect(function()
         Library:Tween(Items.Inline, {
-            BackgroundColor3 = rgb(10, 13, 12)
+            BackgroundColor3 = rgb(43, 52, 48)
         }, TweenInfo.new(0.16, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
         Library:Tween(Items.ButtonScale, {
@@ -2198,7 +2198,7 @@ function Library:Button(properties)
 
     Items.Outline.MouseLeave:Connect(function()
         Library:Tween(Items.Inline, {
-            BackgroundColor3 = rgb(7, 9, 8)
+            BackgroundColor3 = rgb(34, 39, 37)
         }, TweenInfo.new(0.16, Enum.EasingStyle.Quint, Enum.EasingDirection.Out))
 
         Library:Tween(Items.ButtonScale, {
@@ -2255,7 +2255,7 @@ function Library:Keypicker(properties)
         Parent = self.Items.Components,
         Size = dim2(0, 34, 0, 18),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6),
+        BackgroundColor3 = rgb(29, 33, 32),
         LayoutOrder = -1
     })
     Library:Create("UICorner", {Parent = Items.Button, CornerRadius = dim(0, 6)})
@@ -2278,7 +2278,7 @@ function Library:Keypicker(properties)
         Position = dim2(0, 100, 0, 10),
         Size = dim2(0, 230, 0, 200),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(5, 6, 6)
+        BackgroundColor3 = rgb(29, 33, 32)
     })
     Library:Create("UICorner", {Parent = Items.Window, CornerRadius = dim(0, 10)})
 
@@ -2287,7 +2287,7 @@ function Library:Keypicker(properties)
         Position = dim2(0, 1, 0, 1),
         Size = dim2(1, -2, 1, -2),
         BorderSizePixel = 0,
-        BackgroundColor3 = rgb(8, 10, 9)
+        BackgroundColor3 = rgb(36, 42, 39)
     })
     Library:Create("UICorner", {Parent = Items.Inline, CornerRadius = dim(0, 10)})
 
@@ -2329,7 +2329,7 @@ function Library:Keypicker(properties)
 
     Items.SatValPicker = Library:Create("Frame", {
         Parent = Items.Inner,
-        Size = dim2(0, 4, 0, 4),
+        Size = dim2(0, 3, 0, 18),
         BorderSizePixel = 0,
         BackgroundColor3 = rgb(255, 255, 255)
     })
@@ -2540,7 +2540,7 @@ function Library:Keybind(properties)
         Size = dim2(0, 30, 0, 16),
         BorderSizePixel = 0,
         AutomaticSize = Enum.AutomaticSize.X,
-        BackgroundColor3 = rgb(5, 6, 6),
+        BackgroundColor3 = rgb(29, 33, 32),
         LayoutOrder = -1
     })
     Library:Create("UICorner", {Parent = Items.KeybindOutline, CornerRadius = dim(0, 5)})
@@ -2552,7 +2552,7 @@ function Library:Keybind(properties)
         Position = dim2(0, 1, 0, 1),
         BorderSizePixel = 0,
         AutomaticSize = Enum.AutomaticSize.X,
-        BackgroundColor3 = rgb(7, 9, 8)
+        BackgroundColor3 = rgb(34, 39, 37)
     })
     Library:Create("UICorner", {Parent = Items.ButtonColor, CornerRadius = dim(0, 5)})
 
