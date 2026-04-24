@@ -2092,7 +2092,7 @@ function Library:SetIconModule(module: IconModule)
     FetchIcons = true
     Icons = module
 
-    -- Top ten fixes Ã°Å¸Å¡â‚¬
+    -- Top ten fixes ÃƒÂ°Ã…Â¸Ã…Â¡Ã¢â€šÂ¬
     CheckIcon = Library:GetIcon("check")
     ArrowIcon = Library:GetIcon("chevron-up")
     ResizeIcon = Library:GetIcon("move-diagonal-2")
@@ -8566,6 +8566,9 @@ function Library:CreateWindow(WindowInfo)
         local AccentColor = Library.Scheme.AccentColor
         local TitleColor = Library.Scheme.FontColor
 
+        local PreviousIgnoreGuiInset = ScreenGui.IgnoreGuiInset
+        ScreenGui.IgnoreGuiInset = true
+
         local Intro = New("Frame", {
             Name = "MintIntro",
             BackgroundTransparency = 1,
@@ -8683,6 +8686,7 @@ function Library:CreateWindow(WindowInfo)
                 if Intro then
                     Intro:Destroy()
                 end
+                ScreenGui.IgnoreGuiInset = PreviousIgnoreGuiInset
                 if Callback then
                     Callback()
                 end
