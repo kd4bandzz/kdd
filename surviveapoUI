@@ -8558,7 +8558,7 @@ function Library:CreateWindow(WindowInfo)
     end
 
     local function PlayMintStartupIntro(Callback)
-        local ExistingIntro = ScreenGui:FindFirstChild("MintIntro")
+        local ExistingIntro = ScreenGui.Parent and ScreenGui.Parent:FindFirstChild("MintIntro")
         if ExistingIntro then
             ExistingIntro:Destroy()
         end
@@ -8566,15 +8566,25 @@ function Library:CreateWindow(WindowInfo)
         local AccentColor = Library.Scheme.AccentColor
         local TitleColor = Library.Scheme.FontColor
 
-        local PreviousIgnoreGuiInset = ScreenGui.IgnoreGuiInset
-        ScreenGui.IgnoreGuiInset = true
-
-        local Intro = New("Frame", {
+        local Intro = New("ScreenGui", {
             Name = "MintIntro",
+            DisplayOrder = 10000,
+            IgnoreGuiInset = true,
+            ResetOnSpawn = false,
+        })
+        pcall(function()
+            Intro.ScreenInsets = Enum.ScreenInsets.None
+        end)
+        pcall(function()
+            Intro.SafeAreaCompatibility = Enum.SafeAreaCompatibility.None
+        end)
+        ParentUI(Intro)
+
+        local Root = New("Frame", {
             BackgroundTransparency = 1,
             Size = UDim2.fromScale(1, 1),
             ZIndex = 20000,
-            Parent = ScreenGui,
+            Parent = Intro,
         })
 
         local Back = New("Frame", {
@@ -8582,7 +8592,7 @@ function Library:CreateWindow(WindowInfo)
             BackgroundTransparency = 1,
             Size = UDim2.fromScale(1, 1),
             ZIndex = 20000,
-            Parent = Intro,
+            Parent = Root,
         })
 
         local Center = New("Frame", {
@@ -8591,7 +8601,7 @@ function Library:CreateWindow(WindowInfo)
             Position = UDim2.new(0.5, 0, 0.5, -8),
             Size = UDim2.fromOffset(Library.IsMobile and 260 or 300, 170),
             ZIndex = 20001,
-            Parent = Intro,
+            Parent = Root,
         })
 
         local Logo = New("ImageLabel", {
@@ -8686,7 +8696,6 @@ function Library:CreateWindow(WindowInfo)
                 if Intro then
                     Intro:Destroy()
                 end
-                ScreenGui.IgnoreGuiInset = PreviousIgnoreGuiInset
                 if Callback then
                     Callback()
                 end
