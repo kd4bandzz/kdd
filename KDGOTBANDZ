@@ -9950,16 +9950,15 @@ if UIS.TouchEnabled and window and window.Items then
 
             uiWindow.Size = UDim2.fromOffset(targetWidth, windowHeight)
 
-            local offsetX = -math.floor(windowWidth / 2) + 72
+            local offsetX = 0
 
             if viewport.X > 0 then
-                local leftEdge = (viewport.X * 0.5) + offsetX
-                offsetX = math.floor(leftEdge - (viewport.X * 0.5) + (targetWidth / 2))
+                local minMargin = 8
+                local desiredLeftEdge = 72
+                local maxLeftEdge = math.max(minMargin, viewport.X - targetWidth - minMargin)
+                local leftEdge = math.clamp(desiredLeftEdge, minMargin, maxLeftEdge)
 
-                local rightEdge = leftEdge + targetWidth
-                if rightEdge > (viewport.X - 8) then
-                    offsetX -= (rightEdge - (viewport.X - 8))
-                end
+                offsetX = math.floor(leftEdge + (targetWidth * 0.5) - (viewport.X * 0.5))
             end
 
             uiWindow.Position = UDim2.new(0.5, offsetX, 0.5, -math.floor(windowHeight / 2))
