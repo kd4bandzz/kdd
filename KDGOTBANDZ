@@ -4714,6 +4714,7 @@ MintUiSource = MintUiSource:gsub(
     "    Items%.MenuButton%.MouseButton1Click:Connect%(function%(%)[\r\n]+        Cfg%.ToggleMenu%(not Items%.Window%.Visible%)[\r\n]+    end%)",
     [[    local MenuButtonDragging = false
     local MenuButtonDragged = false
+    local MenuButtonDragInput
     local MenuButtonStartInput
     local MenuButtonStartLeftX
     local MenuButtonStartCenterY
@@ -4721,6 +4722,7 @@ MintUiSource = MintUiSource:gsub(
     local function stopMenuButtonDrag()
         if MenuButtonDragging then
             MenuButtonDragging = false
+            MenuButtonDragInput = nil
         end
     end
 
@@ -4731,6 +4733,7 @@ MintUiSource = MintUiSource:gsub(
 
         MenuButtonDragging = true
         MenuButtonDragged = false
+        MenuButtonDragInput = input
         MenuButtonStartInput = input.Position
         MenuButtonStartLeftX = Items.MenuButton.AbsolutePosition.X
         MenuButtonStartCenterY = Items.MenuButton.AbsolutePosition.Y + (Items.MenuButton.AbsoluteSize.Y * 0.5)
@@ -4750,6 +4753,10 @@ MintUiSource = MintUiSource:gsub(
 
     InputService.InputChanged:Connect(function(input)
         if not MenuButtonDragging then
+            return
+        end
+
+        if input ~= MenuButtonDragInput then
             return
         end
 
