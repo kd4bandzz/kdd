@@ -9941,11 +9941,22 @@ if UIS.TouchEnabled and window and window.Items then
             local viewport = workspace.CurrentCamera and workspace.CurrentCamera.ViewportSize or Vector2.new(0, 0)
             local windowWidth = uiWindow.Size.X.Offset
             local windowHeight = uiWindow.Size.Y.Offset
+            local targetWidth = windowWidth
+
+            if viewport.X > 0 then
+                local desiredWidth = math.max(windowWidth, math.floor(viewport.X * 0.92))
+                targetWidth = math.min(desiredWidth, math.max(320, viewport.X - 8), 760)
+            end
+
+            uiWindow.Size = UDim2.fromOffset(targetWidth, windowHeight)
+
             local offsetX = -math.floor(windowWidth / 2) + 72
 
             if viewport.X > 0 then
                 local leftEdge = (viewport.X * 0.5) + offsetX
-                local rightEdge = leftEdge + windowWidth
+                offsetX = math.floor(leftEdge - (viewport.X * 0.5) + (targetWidth / 2))
+
+                local rightEdge = leftEdge + targetWidth
                 if rightEdge > (viewport.X - 8) then
                     offsetX -= (rightEdge - (viewport.X - 8))
                 end
