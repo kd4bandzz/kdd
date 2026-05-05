@@ -4715,7 +4715,8 @@ MintUiSource = MintUiSource:gsub(
     [[    local MenuButtonDragging = false
     local MenuButtonDragged = false
     local MenuButtonStartInput
-    local MenuButtonStartPos
+    local MenuButtonStartLeftX
+    local MenuButtonStartCenterY
 
     local function stopMenuButtonDrag()
         if MenuButtonDragging then
@@ -4731,7 +4732,8 @@ MintUiSource = MintUiSource:gsub(
         MenuButtonDragging = true
         MenuButtonDragged = false
         MenuButtonStartInput = input.Position
-        MenuButtonStartPos = Items.MenuButton.Position
+        MenuButtonStartLeftX = Items.MenuButton.AbsolutePosition.X
+        MenuButtonStartCenterY = Items.MenuButton.AbsolutePosition.Y + (Items.MenuButton.AbsoluteSize.Y * 0.5)
 
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
@@ -4764,8 +4766,8 @@ MintUiSource = MintUiSource:gsub(
         local absoluteSize = Items.MenuButton.AbsoluteSize
         local halfHeight = math.floor(absoluteSize.Y * 0.5)
 
-        local newX = math.clamp(MenuButtonStartPos.X.Offset + delta.X, 8, viewport.X - absoluteSize.X - 8)
-        local newY = math.clamp(MenuButtonStartPos.Y.Offset + delta.Y, halfHeight + 8, viewport.Y - halfHeight - 8)
+        local newX = math.clamp(MenuButtonStartLeftX + delta.X, 8, viewport.X - absoluteSize.X - 8)
+        local newY = math.clamp(MenuButtonStartCenterY + delta.Y, halfHeight + 8, viewport.Y - halfHeight - 8)
 
         Items.MenuButton.Position = dim2(0, newX, 0, newY)
     end)
