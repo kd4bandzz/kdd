@@ -10002,6 +10002,24 @@ if UIS.TouchEnabled and window and window.Items then
             end
         end
 
+        local menuButton = items.MenuButton
+        if menuButton then
+            local lockedMenuButtonPosition = menuButton.Position
+            local resettingMenuButtonPosition = false
+
+            menuButton:GetPropertyChangedSignal("Position"):Connect(function()
+                if resettingMenuButtonPosition then
+                    return
+                end
+
+                if menuButton.Position ~= lockedMenuButtonPosition then
+                    resettingMenuButtonPosition = true
+                    menuButton.Position = lockedMenuButtonPosition
+                    resettingMenuButtonPosition = false
+                end
+            end)
+        end
+
     end)
 end
 
