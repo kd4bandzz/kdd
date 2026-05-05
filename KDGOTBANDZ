@@ -10073,6 +10073,13 @@ if UIS.TouchEnabled and window and window.Items then
                 layout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateTabCanvas)
             end
         end
+
+        local menuButton = items.MenuButton
+        if menuButton then
+            local buttonLeft = menuButton.AbsolutePosition.X
+            local buttonCenterY = menuButton.AbsolutePosition.Y + (menuButton.AbsoluteSize.Y * 0.5)
+            menuButton.Position = UDim2.new(0, math.floor(buttonLeft), 0, math.floor(buttonCenterY))
+        end
     end)
 end
 
